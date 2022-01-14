@@ -1,0 +1,149 @@
+---
+title: "Script"
+output: html_document
+subtitle: "This is a subtitle"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Purpose of the Workshop:
+
+One of the main principles of scientific research is related to its reproducible quality.
+
+>Reproducibility refers to the ability of a researcher to duplicate the results of a prior study using the same materials that were used by the original researcher (Goodman, Fanelli, and Ioannidis 2016). This is a cornerstone of scientific research because if we cannot reproduce previous studies, we cannot rely on their results, and we cannot build on them to generate new knowledge.
+
+
+
+# Representing the data
+Important data types in R
+
+1. Clasess:
+  - Numerical, Character, Integer or Logical
+2. Objects
+  - Vectors, Matrices, Data frames, Lists, Factors, Missing values
+3. Operations
+  - Subsetting, Logical subsetting
+  
+Source:   
+
+## Classes
+#### Numerical
+```{r Var_numerique}
+# Définition de Variable Numérique
+a <- 1
+b <- 2
+class(a)
+class(b)
+
+# Opérations basiques
+c <- a + b  # somme
+c <- sum(a, b)# somme
+c <- a - b  # rest
+
+```
+
+Lé résultat de la somme est `r c`
+
+#### Character
+```{r, Var_char}
+# Définition d'une variable type 'character' (texte)
+d <- "Bonjour"
+e <- "Comment ça va?" 
+#f <- d + e 
+#class(a)
+
+# Opérations basiques
+f <- paste(d, e, sep = ", ")
+```
+
+#### Integer
+```{r Var_int}
+numberSons <- 10L
+```
+
+#### Logical
+
+```{r}
+
+```
+
+
+
+
+## Objects
+### Vectors
+### Matrices
+### Data frames
+### List
+### Factors
+### Missing Values
+
+
+
+### Import Data
+
+
+
+# Data wrangling
+
+1. You know the Five Main Verbs (5MV) of data wrangling
+2. You will know the Pipe operator ('Ceci n'est pas une pipe')
+3. Tidy data approach
+
+
+
+# Final Exercise
+
+## Gapminder challenge
+
+
+- Inspired by the late, great [Hans Rosling](https://www.youtube.com/watch?v=jbkSRLYSojo)
+
+
+Install and load the [`gapminder` data package](https://github.com/jennybc/gapminder)
+
+```{r, eval=FALSE, echo=TRUE, include=TRUE}
+install.packages("gapminder")
+library(gapminder)
+gapminder
+```
+
+
+Pick at least __two__ of the tasks below from the task menu and approach each with a table and figure. 
+
+  * `dplyr` should be your main data manipulation tool
+  * `ggplot2` should be your main visualization tool
+
+## Tasks menu {-}
+
+* The mean life expectancy across all years for France?
+
+* Get the maximum and minimum of GDP per capita for all continents.
+
+* Look at the spread of GDP per capita across countries within the continents.
+
+* How does life expectancy vary across different continents? (Using a `ggplot`)
+
+
+
+
+* Report the absolute and/or relative abundance of countries with low life expectancy over time by continent: Compute some measure of worldwide life expectancy - you decide - a mean or median or some other quantile or perhaps your current age. Then determine how many countries on each continent have a life expectancy less than this benchmark, for each year.
+
+* Make up your own! 
+
+
+---
+
+
+You're encouraged to reflect on what was hard/easy, problems you solved, helpful tutorials you read, etc.
+
+
+
+
+
+
+
+
+ 

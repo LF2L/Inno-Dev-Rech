@@ -175,28 +175,114 @@ pre code {
 <blockquote>
 <p>Reproducibility refers to the ability of a researcher to duplicate the results of a prior study using the same materials that were used by the original researcher (Goodman, Fanelli, and Ioannidis 2016). This is a cornerstone of scientific research because if we cannot reproduce previous studies, we cannot rely on their results, and we cannot build on them to generate new knowledge.</p>
 </blockquote>
-<div id="elements-basiques-de-r" class="section level2">
-<h2>Elements basiques de R</h2>
-<div id="type-de-variables" class="section level3">
-<h3>Type de Variables:</h3>
-<div id="numerique" class="section level4">
-<h4>Numerique</h4>
-<pre class="r"><code># Définition de Variable Numérique
-a &lt;- 1
-b &lt;- 2
-c &lt;- a + b</code></pre>
-<p>Lé résultat de la somme est</p>
 </div>
-<div id="test" class="section level4">
-<h4>Test</h4>
-<pre class="r"><code>d &lt;- &quot;Bonjour&quot;
-e &lt;- &quot;Comment ça va?&quot; 
-#f &lt;- d + e </code></pre>
+<div id="representing-the-data" class="section level1">
+<h1>Representing the data</h1>
+<p>Important data types in R</p>
+<ol style="list-style-type: decimal">
+<li>Clasess:</li>
+</ol>
+<ul>
+<li>Numerical, Character, Integer or Logical</li>
+</ul>
+<ol start="2" style="list-style-type: decimal">
+<li>Objects</li>
+</ol>
+<ul>
+<li>Vectors, Matrices, Data frames, Lists, Factors, Missing values</li>
+</ul>
+<ol start="3" style="list-style-type: decimal">
+<li>Operations</li>
+</ol>
+<ul>
+<li>Subsetting, Logical subsetting</li>
+</ul>
+<p>Source:</p>
+<div id="classes" class="section level2">
+<h2>Classes</h2>
+<div id="numerical" class="section level4">
+<h4>Numerical</h4>
+<pre class="r"><code># Définition d&#39;une Variable Numérique
+a_num &lt;- 1
+a_num</code></pre>
+<pre><code>## [1] 1</code></pre>
+<pre class="r"><code>b_num &lt;- 2
+b_num</code></pre>
+<pre><code>## [1] 2</code></pre>
+<pre class="r"><code># Clase
+class(a_num)</code></pre>
+<pre><code>## [1] &quot;numeric&quot;</code></pre>
+<pre class="r"><code># Opérations basiques
+somme_1 &lt;- a_num + b_num  # somme
+somme_2 &lt;- sum(a_num, b_num)# somme</code></pre>
+<p>Lé résultat de la somme est <strong>3</strong></p>
+</div>
+<div id="character" class="section level4">
+<h4>Character</h4>
+<pre class="r"><code># Définition d&#39;une variable type &#39;character&#39; (texte)
+a_char &lt;- &quot;Bonjour&quot;
+b_char &lt;- &quot;Comment ça va?&quot; 
+
+class(a_char) # Classe</code></pre>
+<pre><code>## [1] &quot;character&quot;</code></pre>
+<pre class="r"><code># Opérations basiques
+c_char &lt;- paste(a_char, b_char, sep = &quot;, &quot;)</code></pre>
+<p>Lé résultat de ‘Paste’ est: <strong>Bonjour, Comment ça va?</strong></p>
+</div>
+<div id="integer" class="section level4">
+<h4>Integer</h4>
+<pre class="r"><code># Définition d&#39;une variable type &#39;Integer&#39; (Valeur Entier)
+a_int &lt;- 10L
+b_int &lt;- 2L
+
+class(b_int) # Classe</code></pre>
+<pre><code>## [1] &quot;integer&quot;</code></pre>
+<pre class="r"><code># Opérations basiques
+c_int &lt;- sum(a_int, b_int)
+class(c_int)</code></pre>
+<pre><code>## [1] &quot;integer&quot;</code></pre>
+</div>
+<div id="logical" class="section level4">
+<h4>Logical</h4>
+<pre class="r"><code># Définition d&#39;une variable type &#39;Logical&#39; (Valeur Entier)
+a_log &lt;- TRUE
+b_log &lt;- FALSE
+
+class(a_log)</code></pre>
+<pre><code>## [1] &quot;logical&quot;</code></pre>
+<pre class="r"><code># Opérations basiques
+C_int &lt;- sum(a_log, a_log)</code></pre>
 </div>
 </div>
+<div id="objects" class="section level2">
+<h2>Objects</h2>
+<div id="vectors" class="section level3">
+<h3>Vectors</h3>
+<p>A set of values with the same class - The fonction <code>c()</code> is a ‘<em>combination fonction</em>’</p>
+<pre class="r"><code># Creation of a vector with the function c()
+
+etudiant &lt;- c(&quot;Maelle&quot;, &quot;Luca&quot;, &quot;Sandrine&quot;)
+taille  &lt;-  c(188, 173, 187)
+age &lt;- c(32, 23, 35)
+
+class(etudiant)</code></pre>
+<pre><code>## [1] &quot;character&quot;</code></pre>
 </div>
-<div id="r-data-science" class="section level2">
-<h2>R Data Science</h2>
+<div id="matrices" class="section level3">
+<h3>Matrices</h3>
+</div>
+<div id="data-frames" class="section level3">
+<h3>Data frames</h3>
+</div>
+<div id="list" class="section level3">
+<h3>List</h3>
+</div>
+<div id="factors" class="section level3">
+<h3>Factors</h3>
+</div>
+<div id="missing-values" class="section level3">
+<h3>Missing Values</h3>
+</div>
 <div id="import-data" class="section level3">
 <h3>Import Data</h3>
 </div>

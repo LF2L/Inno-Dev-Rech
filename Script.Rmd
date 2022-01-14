@@ -31,58 +31,226 @@ Source:
 ## Classes
 #### Numerical
 ```{r Var_numerique}
-# Définition de Variable Numérique
-a <- 1
-b <- 2
-class(a)
-class(b)
+# Définition d'une Variable Numérique
+a_num <- 1
+a_num
+b_num <- 2
+b_num
+# Clase
+class(a_num)
+
 
 # Opérations basiques
-c <- a + b  # somme
-c <- sum(a, b)# somme
-c <- a - b  # rest
+somme_1 <- a_num + b_num  # somme
+somme_2 <- sum(a_num, b_num)# somme
 
 ```
 
-Lé résultat de la somme est `r c`
+Lé résultat de la somme est **`r somme_1`**
 
 #### Character
 ```{r, Var_char}
 # Définition d'une variable type 'character' (texte)
-d <- "Bonjour"
-e <- "Comment ça va?" 
-#f <- d + e 
-#class(a)
+a_char <- "Bonjour"
+b_char <- "Comment ça va?" 
+
+class(a_char) # Classe
 
 # Opérations basiques
-f <- paste(d, e, sep = ", ")
+c_char <- paste(a_char, b_char, sep = ", ")
 ```
+
+Lé résultat de 'Paste' est:  **`r c_char`**
 
 #### Integer
 ```{r Var_int}
-numberSons <- 10L
+# Définition d'une variable type 'Integer' (Valeur Entier)
+a_int <- 10L
+b_int <- 2L
+
+class(b_int) # Classe
+
+# Opérations basiques
+c_int <- sum(a_int, b_int)
+class(c_int)
 ```
 
 #### Logical
 
 ```{r}
+# Définition d'une variable type 'Logical' (Valeur Entier)
+a_log <- TRUE
+b_log <- FALSE
+
+class(a_log)
+
+# Opérations basiques
+C_int <- sum(a_log, a_log)
 
 ```
 
 
 
-
 ## Objects
 ### Vectors
+
+A set of values with the **same class**
+
+- The fonction `c()` is a '*combination fonction*'
+
+```{r}
+# Creation of a vector with the function c()
+etudiants <- c("Maelle", "Luca", "Sandrine", "Marcelo", "Jean")
+taille  <-  c(188, 173, 187, 164, 178)
+age <- c(32, 23, 35, 35, 54)
+
+class(age)
+
+# Quelle est la moyenne de la taille des étudiants
+mean(taille)
+
+
+## What happen if we do:
+test <- c("Maelle", "Luca", 118, 173)
+mean(test_1)
+class(test_1)
+
+```
+
+
 ### Matrices
-### Data frames
+
+```{r}
+# Creation d'une matrix
+a_Matrix <-  matrix(c(1, 2, 3, 4), byrow = T, nrow = 2)
+a_Matrix
+vector <- c(1,3)
+
+# Opérations basiques
+a_Matrix*2
+a_Matrix*vector
+
+```
+
 ### List
+A vector of values of possibly different classes
+
+```{r}
+# Creation d'une List
+v1 <- c("Maelle", "Luca", "Sandrine", "Marcelo", "Jean")
+v2  <-  c(188, 173, 187, 164, 178)
+v3 <- c(32, 23, 35, 35, 54)
+
+a_list <- list(etudiant = v1,
+               taille = v2,
+               v3 = age)
+a_list
+
+class(a_List)
+
+```
+
+### Data frames
+
+MOst common type of data --> Tableau Excel! 
+
+```{r}
+# Creation d'une data frame
+v1 <- c("Maelle", "Luca", "Sandrine", "Marcelo", "Jean")
+v2  <-  c(188, 173, 187, 164, 178)
+v3 <- c(32, 23, 35, 35, 54)
+
+a_dataframe <-  data.frame(etudiant = v1, 
+                           taille = v2, 
+                           v3 = age)
+
+```
+
 ### Factors
+
+Qualitative variables that can be included in models
+
+```{r}
+# Definition des facteur de base d'une vector
+
+fumeur = c("yes", "no", "yes", "yes", "no")
+fumeur = as.factor(fumeur)
+fumeur
+
+# On peut ajouter cet infor au dataframe initial
+a_dataframe$fumeur <- fumeur
+```
+
+
+
 ### Missing Values
 
+In R they are usually coded `NA`
 
+```{r}
+# Imaginez que vous n'avez pas tout les donnes:
+
+sportif = c("yes", "no", "yes", "yes")
+#a_dataframe$sportif <- sportif
+
+# Attention au dimmensions des vecteur --> Si on ajoute des vecteur des different dimensions
+
+# Use of NA
+sportif = c("yes", "no", "yes", "yes", NA)
+#a_dataframe$sportif <- sportif
+
+```
+
+## Subsetting elements
+
+```{r}
+# Selecting some elements inside the vector
+etudiants <- c("Maelle", "Luca", "Sandrine", "Marcelo", "Jean")
+
+# Une ou plusiers elements dans un vecteur
+etudiants[1]
+etudiants[c(1,2)]
+etudiants[c(1,2,3)]
+etudiants[1:3]
+```
+
+
+```{r}
+# Une ou plusiers elements dans un Data Frame
+data <- 
+  data.frame(
+    etudiants = c("Maelle", "Luca", "Sandrine", "Marcelo", "Jean"),
+    taille  =  c(188, 173, 187, 164, 178),
+    age = c(32, 23, 35, 38, 54),
+    sportif = c("yes", "no", "yes", "yes", NA)
+  )
+
+# Filtre une ligne
+data[1 , ] 
+data[c(1,2) , ]
+data[1:3 , ]
+
+
+# Filtrer une colonne
+data[ , 1]
+data[ , c(1,2)]
+data[ , 2:3]
+
+# Filtrer une ligne et une colonne
+
+data[1:2, 2:3]
+
+
+# Logical Subsetting
+data[age > 30,   ]
+
+data[data$etudiants == "Maelle", ]
+
+
+```
 
 ### Import Data
+
 
 
 

@@ -6,6 +6,11 @@ subtitle: "This is a subtitle"
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+
+#libraries
+#devtools::install_github( "ThinkR-open/prenoms")
+library("prenoms")
+
 ```
 
 # Purpose of the Workshop:
@@ -111,9 +116,9 @@ mean(taille)
 
 
 ## What happen if we do:
-test <- c("Maelle", "Luca", 118, 173)
-mean(test_1)
-class(test_1)
+test <- c("Maelle", "Luca", 118, 173, 1L)
+#mean(test)
+#class(test)
 
 ```
 
@@ -143,10 +148,10 @@ v3 <- c(32, 23, 35, 35, 54)
 
 a_list <- list(etudiant = v1,
                taille = v2,
-               v3 = age)
+               age = v3 )
 a_list
 
-class(a_List)
+class(a_list)
 
 ```
 
@@ -249,12 +254,139 @@ data[data$etudiants == "Maelle", ]
 
 ```
 
-### Import Data
+
+### Exercise on Basics
+
+```{r Ex:1}
+
+```
+
+---
+
+**Take a rest of 5 Min**
+
+---
+
+
+# Tidyverse
+
+
+
+## Import Data
+
+`readr` et `readxl` permettent d’importer des données tabulaires depuis des fichiers texte ou Excel.
+Une interface intégrée à RStudio facilite leur usage en permettant de modifier les options d’importation et d’avoir un aperçu en temps réel.
+
+```{r}
+# Load the library
+library(tidyverse)
+```
+
+
+```{r}
+# Lire un base de donnes CSV:
+data.csv <- read_csv("data/data-twitter-article.csv")
+data.csv
+
+
+# Lire un base de donnes Excel
+library(readxl)
+data.excel <- read_excel("data/clippy.xls" )
+
+# Lire un onglet d'excel ---> Il faut savoir quel's sont les onglets du document
+onglets <- excel_sheets("data/deaths.xlsx")
+data.excel.onglets <- read_excel("data/deaths.xlsx", sheet = onglets[1] )
+data.excel.onglets <- read_excel("data/deaths.xlsx", sheet = onglets[1], skip = 4 )
+data.excel.onglets <- read_excel("data/deaths.xlsx", sheet = onglets[1], skip = 4 )
+
+```
+
+## Export de tableaux de données
+
+On peut avoir besoin d’exporter un tableau de données dans R vers un fichier dans différents formats. La plupart des fonctions d’import disposent d’un équivalent permettant l’export de données. On citera notamment :
+
+- `write_csv`, `write_csv2`, `read_tsv` permettent d’enregistrer un data frame ou un tibble dans un fichier au format texte délimité
+
+```{r}
+# Exporté des donnes
+
+# With csv et csv2
+write_csv(data.csv, file= "data/export-csv.csv")
+write_csv2(data.csv, file= "data/export-csv2.csv")
+
+```
+
+
+## Tidy
+Les principes d’un jeu de données tidy sont les suivants :
+
+- chaque variable est une colonne
+- chaque observation est une ligne
+- chaque type d’observation est dans une table différente
+
+
+
+```{r message=FALSE, warning=FALSE, include=FALSE}
+
+# Chunk not included for Students
+
+library(knitr, quietly = TRUE)
+library(tidyverse, quietly = TRUE)
+library(gapminder, quietly = TRUE)
+
+data <- 
+  data.frame(
+    etudiants = c("Maelle", "Luca", "Sandrine", "Marcelo", "Jean"),
+    taille  =  c(188, 173, 187, 164, 178),
+    age = c(32, 23, 35, 38, 54),
+    sportif = c("yes", "no", "yes", "yes", NA)
+  )
+
+data %>% 
+  dplyr::select(etudiants, taille, sportif) %>%
+  spread(taille, sportif)
+
+data(gapminder)
+d <- gapminder
+dm <- d %>% 
+  filter(
+    country %in% c("France", "Germany", "Belgium"),
+    year >= 1992
+  ) %>%
+  dplyr::select(country, year, pop) %>% 
+  spread(year, pop)
+kable(dm)
+
+# write_csv(dm, file = "data/non-tidy.csv")
+```
+
+Prenons un exemple avec les données suivantes, qui indique la population de trois pays pour quatre années différentes :
+
+```{r }
+# Data in 'NON tidy' form
+
+ data.non.tidy <- read_csv(dm, file = "data/non-tidy.csv")
+```
 
 
 
 
-# Data wrangling
+## Pipe Operation
+
+
+
+## Main Verbs 
+
+### filter()
+### summarise()
+### group_by()
+### mutate()
+### arrange()
+
+
+```{r}
+
+```
 
 1. You know the Five Main Verbs (5MV) of data wrangling
 2. You will know the Pipe operator ('Ceci n'est pas une pipe')

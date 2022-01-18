@@ -7,6 +7,7 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+In English
 
 * [Alison Presmanes Hill](https://twitter.com/apreshill)
 * [rstudio4edu](https://rstudio4edu.github.io/rstudio4edu-book/)
@@ -17,7 +18,7 @@ knitr::opts_chunk$set(echo = TRUE)
 * [Julia Silge](https://twitter.com/juliasilge)
 * [Jenny Bryan](https://twitter.com/JennyBryan)
 * [Garrick Aden‑Buie](https://twitter.com/grrrck)
-</div><br/>
+
 
 The R package and analysis artwork used within this book has been produced by
 
@@ -61,6 +62,7 @@ In french:
 * [analyse-R](https://larmarange.github.io/analyse-R/)
 
 
+
 ```{r}
 
 ```
@@ -85,7 +87,7 @@ In english:
 * [Codeacademy](https://www.codecademy.com/learn/learn-r)
 * [YaRrr! The Pirate's Guide to R](https://bookdown.org/ndphillips/YaRrr/)
 
-</div><br/>
+
 
 En Español:
 
@@ -93,10 +95,10 @@ En Español:
 * [R Coder](https://r-coder.com/)
 
 
-<div class="col2">
+
 
 * [Free RStudio Education resources](https://education.rstudio.com)
 * [Codeacademy](https://www.codecademy.com/learn/learn-r)
 * [YaRrr! The Pirate's Guide to R](https://bookdown.org/ndphillips/YaRrr/)
 
-</div><br/>
+

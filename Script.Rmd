@@ -1,5 +1,6 @@
 ---
 title: "Script"
+author: "Name of the Student"
 output: html_document
 subtitle: "This is a subtitle"
 ---
@@ -13,134 +14,92 @@ library("prenoms")
 
 ```
 
-# Purpose of the Workshop:
+# But du Workshop:
 
-One of the main principles of scientific research is related to its reproducible quality.
+Le but principales est la comprendre la  reproducibilité des résulstats dans la recherche scientific.
 
->Reproducibility refers to the ability of a researcher to duplicate the results of a prior study using the same materials that were used by the original researcher (Goodman, Fanelli, and Ioannidis 2016). This is a cornerstone of scientific research because if we cannot reproduce previous studies, we cannot rely on their results, and we cannot build on them to generate new knowledge.
+>Nous allons reprendre plusieurs éléments de base du langage **R**. 
+Une bonne compréhension des bases du langage, bien qu'un peu ardue de prime abord, permet de comprendre le sens des commandes qu'on utilise et de pleinement exploiter la puissance que **R** offre en matière de manipulation de données.
 
 
 
-# Representing the data
-Important data types in R
+# Bases de la programmation R
+## Fonctions & Objets
+
+Résumé des elements importants 
+
+1. Les vecteurs sont l’un des objets de base de R et correspondent à une liste de valeurs. Leurs propriétés fondamentales sont :
 
 1. Clasess:
   - Numerical, Character, Integer or Logical
 2. Objects
-  - Vectors, Matrices, Data frames, Lists, Factors, Missing values
+  - Vectors, Lists, Data frames,  Factors, Missing values.
 3. Operations
   - Subsetting, Logical subsetting
   
-Source:   
-
-## Classes
-#### Numerical
-```{r Var_numerique}
-# Définition d'une Variable Numérique
-a_num <- 1
-a_num
-b_num <- 2
-b_num
-# Clase
-class(a_num)
-
-
-# Opérations basiques
-somme_1 <- a_num + b_num  # somme
-somme_2 <- sum(a_num, b_num)# somme
-
+### Variables
+```{r Ex_1}
+# Définition d'une variable type 'numerique' 
+a_int <- 20
+b_int <- 30
 ```
 
-Lé résultat de la somme est **`r somme_1`**
+```{r Ex_2}
+# Définition d'une variable type 'Entier' 
+a_int <- 20L
+b_int <- 30L
+```
 
-#### Character
-```{r, Var_char}
+
+```{r Ex_3}
+# Définition d'une variable type 'Logical' (Valeur Entier)
+a_log <- TRUE
+b_log <- FALSE
+```
+
+
+```{r Ex_4}
 # Définition d'une variable type 'character' (texte)
 a_char <- "Bonjour"
 b_char <- "Comment ça va?" 
 
-class(a_char) # Classe
-
-# Opérations basiques
-c_char <- paste(a_char, b_char, sep = ", ")
 ```
 
-Lé résultat de 'Paste' est:  **`r c_char`**
+### Vecteur
 
-#### Integer
-```{r Var_int}
-# Définition d'une variable type 'Integer' (Valeur Entier)
-a_int <- 10L
-b_int <- 2L
+La fonction `c()` ('*combination fonction*') permet de creer de vecteur:
 
-class(b_int) # Classe
-
-# Opérations basiques
-c_int <- sum(a_int, b_int)
-class(c_int)
-```
-
-#### Logical
-
-```{r}
-# Définition d'une variable type 'Logical' (Valeur Entier)
-a_log <- TRUE
-b_log <- FALSE
-
-class(a_log)
-
-# Opérations basiques
-C_int <- sum(a_log, a_log)
-
-```
-
-
-
-## Objects
-### Vectors
-
-A set of values with the **same class**
-
-- The fonction `c()` is a '*combination fonction*'
-
-```{r}
-# Creation of a vector with the function c()
+```{r Ex_5}
+# Faire un vecteur de longitud 5.
 etudiants <- c("Maelle", "Luca", "Sandrine", "Marcelo", "Jean")
 taille  <-  c(188, 173, 187, 164, 178)
 age <- c(32, 23, 35, 35, 54)
+```
 
-class(age)
+- Determinez:
+  - Age moyenne des des étudiants dans la variable `moyenne_global`.
+  - Longueur du vecteur étudiants. (voir `?length`)
 
-# Quelle est la moyenne de la taille des étudiants
-mean(taille)
 
+```{r Ex_6}
 
-## What happen if we do:
-test <- c("Maelle", "Luca", 118, 173, 1L)
-#mean(test)
-#class(test)
+# moyenne_global <- ....
+
+# total_etu <- ...
 
 ```
 
+Lé résultat de la somme est:  **`r moyenne_global`**.
+La totalité des étudiantes est: **`r moyenne_global`**
+  
 
-### Matrices
 
-```{r}
-# Creation d'une matrix
-a_Matrix <-  matrix(c(1, 2, 3, 4), byrow = T, nrow = 2)
-a_Matrix
-vector <- c(1,3)
-
-# Opérations basiques
-a_Matrix*2
-a_Matrix*vector
-
-```
 
 ### List
-A vector of values of possibly different classes
 
-```{r}
+- Faites unu liste avec les vecteurs que vous avez fait dans l'exercise précedente
+
+```{r Ex_7}
 # Creation d'une List
 v1 <- c("Maelle", "Luca", "Sandrine", "Marcelo", "Jean")
 v2  <-  c(188, 173, 187, 164, 178)
@@ -151,115 +110,27 @@ a_list <- list(etudiant = v1,
                age = v3 )
 a_list
 
-class(a_list)
-
 ```
 
 ### Data frames
 
-MOst common type of data --> Tableau Excel! 
+- Pourquoi le data.frame suivant marque un erreur?. Faites la correction necessaire.
 
-```{r}
-# Creation d'une data frame
-v1 <- c("Maelle", "Luca", "Sandrine", "Marcelo", "Jean")
-v2  <-  c(188, 173, 187, 164, 178)
-v3 <- c(32, 23, 35, 35, 54)
+```{r Ex_8}
+#etudiants <- c("Maelle", "Luca", "Sandrine", "Marcelo", "Jean")
+#taille  <-  rnorm(8, mean = 173, sd = 5 )
 
-a_dataframe <-  data.frame(etudiant = v1, 
-                           taille = v2, 
-                           v3 = age)
-
-```
-
-### Factors
-
-Qualitative variables that can be included in models
-
-```{r}
-# Definition des facteur de base d'une vector
-
-fumeur = c("yes", "no", "yes", "yes", "no")
-fumeur = as.factor(fumeur)
-fumeur
-
-# On peut ajouter cet infor au dataframe initial
-a_dataframe$fumeur <- fumeur
-```
-
-
-
-### Missing Values
-
-In R they are usually coded `NA`
-
-```{r}
-# Imaginez que vous n'avez pas tout les donnes:
-
-sportif = c("yes", "no", "yes", "yes")
-#a_dataframe$sportif <- sportif
-
-# Attention au dimmensions des vecteur --> Si on ajoute des vecteur des different dimensions
-
-# Use of NA
-sportif = c("yes", "no", "yes", "yes", NA)
-#a_dataframe$sportif <- sportif
-
-```
-
-## Subsetting elements
-
-```{r}
-# Selecting some elements inside the vector
-etudiants <- c("Maelle", "Luca", "Sandrine", "Marcelo", "Jean")
-
-# Une ou plusiers elements dans un vecteur
-etudiants[1]
-etudiants[c(1,2)]
-etudiants[c(1,2,3)]
-etudiants[1:3]
-```
-
-
-```{r}
-# Une ou plusiers elements dans un Data Frame
-data <- 
-  data.frame(
-    etudiants = c("Maelle", "Luca", "Sandrine", "Marcelo", "Jean"),
-    taille  =  c(188, 173, 187, 164, 178),
-    age = c(32, 23, 35, 38, 54),
-    sportif = c("yes", "no", "yes", "yes", NA)
-  )
-
-# Filtre une ligne
-data[1 , ] 
-data[c(1,2) , ]
-data[1:3 , ]
-
-
-# Filtrer une colonne
-data[ , 1]
-data[ , c(1,2)]
-data[ , 2:3]
-
-# Filtrer une ligne et une colonne
-
-data[1:2, 2:3]
-
-
-# Logical Subsetting
-data[age > 30,   ]
-
-data[data$etudiants == "Maelle", ]
-
+#a_dataframe <-  data.frame(etudiants, taille)
 
 ```
 
 
-### Exercise on Basics
+- Seleccionez la colonne `Species`  du data.frame `iris`, et trouvez les valeurs minimal, maximal, moyenne de la colonne `Sepal.Length`.
 
-```{r Ex:1}
-
+```{r Ex_9}
+data <- iris$Sepal.Length
 ```
+
 
 ---
 
@@ -268,9 +139,53 @@ data[data$etudiants == "Maelle", ]
 ---
 
 
+# Bases de la visualisation de données
+
+A retenir de ce module:
+
+1. Créer des graphiques avec un **modèle** (ou **template**) {ggplot2} réutilisable
+1. Ajouter des variables à un graphique avec **aesthetics**
+1. Sélectionner le "type" de votre graphique avec **geoms** 
+
+
+- Faites un nuages de points avec les variables `Sepal.Length` et `Sepal.Width` du data.frame `iris` en faisant la distintion des couleur pour chaque spèce de fleur.
+
+```{r Ex_10}
+# ggplot(data = <DATA>) + 
+#   aes(x = <X>, y = <Y>)
+#  <GEOM_FUNCTION>()
+
+ggplot(data = iris) +
+  aes(x = Sepal.Length, y = Sepal.Width, color = Species) +
+  geom_point()
+```
+
+
+- Faites un boxplot avec memes variables `Sepal.Length` et `Sepal.Width` du data.frame `iris` en faisanat la distaintion des coulor pour chaque Spece de fleur.
+
+
+```{r Ex_11}
+# ggplot(data = <DATA>) + 
+#   aes(x = <X>, y = <Y>)
+#  <GEOM_FUNCTION>()
+
+ggplot(data = iris) +
+  aes(x = Sepal.Length, y = Sepal.Width, color = Species) +
+  geom_boxplot()
+```
+
+
+
+- Pouvez-vous ajouter les titres, et labels dans le dernièr graphique? (regardez `?labs`)
+ 
+
+```{r Ex_12}
+
+```
+
+
+
 # Tidyverse
-
-
 
 ## Import Data
 
@@ -283,15 +198,40 @@ library(tidyverse)
 ```
 
 
+-  Lire une base de donnes CSV:
 ```{r}
-# Lire un base de donnes CSV:
 data.csv <- read_csv("data/data-twitter-article.csv")
 data.csv
+```
 
+- Lire un fichier EXCEL
 
+```{r}
 # Lire un base de donnes Excel
 library(readxl)
-data.excel <- read_excel("data/clippy.xls" )
+
+data.excel <- read_excel("data/Test_Attrakdiff.xls" ) # Don't show up
+
+#identifying the onglets
+onglets <- excel_sheets("data/Test_Attrakdiff.xls")
+
+
+# Reading the onglet that corresponds
+data.excel <- read_excel("data/Test_Attrakdiff.xls",  sheet = onglets[2]) 
+
+
+# Reading the onglet that corresponds
+data.excel <- read_excel("data/Test_Attrakdiff.xls",  
+                         sheet = onglets[2], 
+                         skip = ) 
+
+
+
+```
+
+-  Lire les onglets dans le fichier Excel
+
+```{r atractif}
 
 # Lire un onglet d'excel ---> Il faut savoir quel's sont les onglets du document
 onglets <- excel_sheets("data/deaths.xlsx")
@@ -299,13 +239,14 @@ data.excel.onglets <- read_excel("data/deaths.xlsx", sheet = onglets[1] )
 data.excel.onglets <- read_excel("data/deaths.xlsx", sheet = onglets[1], skip = 4 )
 data.excel.onglets <- read_excel("data/deaths.xlsx", sheet = onglets[1], skip = 4 )
 
+
 ```
 
 ## Export de tableaux de données
 
 On peut avoir besoin d’exporter un tableau de données dans R vers un fichier dans différents formats. La plupart des fonctions d’import disposent d’un équivalent permettant l’export de données. On citera notamment :
 
-- `write_csv`, `write_csv2`, `read_tsv` permettent d’enregistrer un data frame ou un tibble dans un fichier au format texte délimité
+- `write_csv`, `write_csv2` permettent d’enregistrer un data frame ou un tibble dans un fichier au format texte délimité
 
 ```{r}
 # Exporté des donnes
@@ -318,6 +259,7 @@ write_csv2(data.csv, file= "data/export-csv2.csv")
 
 
 ## Tidy
+
 Les principes d’un jeu de données tidy sont les suivants :
 
 - chaque variable est une colonne
@@ -326,41 +268,7 @@ Les principes d’un jeu de données tidy sont les suivants :
 
 
 
-```{r message=FALSE, warning=FALSE, include=FALSE}
-
-# Chunk not included for Students
-
-library(knitr, quietly = TRUE)
-library(tidyverse, quietly = TRUE)
-library(gapminder, quietly = TRUE)
-
-data <- 
-  data.frame(
-    etudiants = c("Maelle", "Luca", "Sandrine", "Marcelo", "Jean"),
-    taille  =  c(188, 173, 187, 164, 178),
-    age = c(32, 23, 35, 38, 54),
-    sportif = c("yes", "no", "yes", "yes", NA)
-  )
-
-data %>% 
-  dplyr::select(etudiants, taille, sportif) %>%
-  spread(taille, sportif)
-
-data(gapminder)
-d <- gapminder
-dm <- d %>% 
-  filter(
-    country %in% c("France", "Germany", "Belgium"),
-    year >= 1992
-  ) %>%
-  dplyr::select(country, year, pop) %>% 
-  spread(year, pop)
-kable(dm)
-
-# write_csv(dm, file = "data/non-tidy.csv")
-```
-
-Prenons un exemple avec les données suivantes, qui indique la population de trois pays pour quatre années différentes :
+Prenons un exemple avec VOS données de l'experimentation, qui indique la population de trois pays pour quatre années différentes :
 
 ```{r }
 # Data in 'NON tidy' form
@@ -371,27 +279,11 @@ Prenons un exemple avec les données suivantes, qui indique la population de tro
 
 
 
-## Pipe Operation
-
-
-
-## Main Verbs 
-
-### filter()
-### summarise()
-### group_by()
-### mutate()
-### arrange()
-
+# Attractif
 
 ```{r}
-
+read_excel
 ```
-
-1. You know the Five Main Verbs (5MV) of data wrangling
-2. You will know the Pipe operator ('Ceci n'est pas une pipe')
-3. Tidy data approach
-
 
 
 # Final Exercise

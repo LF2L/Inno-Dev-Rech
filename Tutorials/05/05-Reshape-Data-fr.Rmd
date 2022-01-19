@@ -1,8 +1,8 @@
 ---
 title: "Restructurer des données"
-tutorial:
-  id: "io.shinyapps.tutorials.01-reshape"
-  version: 0.01
+# tutorial:
+#   id: "io.shinyapps.tutorials.01-reshape"
+#   version: 0.01
 output: 
   learnr::tutorial:
     progressive: true
@@ -42,7 +42,7 @@ pollution <- tribble(
 checker <- function(label, user_code, check_code, envir_result, evaluate_result, ...) {
   list(message = check_code, correct = TRUE, location = "append")
 }
-tutorial_options(exercise.timelimit = 160, exercise.checker = checker)
+tutorial_options(exercise.timelimit = 60, exercise.checker = checker)
 knitr::opts_chunk$set(echo = FALSE)
 ```
 
@@ -77,11 +77,11 @@ Cliquez sur le bouton pour commencer.
 
 En [analyse exploratoire de données](), nous proposons trois définitions utiles pour la science des données :
 
-*   Une __variable__ est une quantité, une qualité, ou une propriété que vous pouvez mesurer. 
+*   Une **variable** est une quantité, une qualité, ou une propriété que vous pouvez mesurer. 
 
-*   Une __valeur__ est l'état d'une variable quand vous la mesurez. La valeur d'une variable peut ainsi varier d'une mesure à l'autre.
+*   Une **valeur** est l'état d'une variable quand vous la mesurez. La valeur d'une variable peut ainsi varier d'une mesure à l'autre.
 
-*   Une __observation__ est un ensemble de mesures effectuées dans des conditions similaires (vous effectuez généralement toutes les mesures sur une observation en même temps et sur le même objet). Une observation contiendra plusieurs valeurs, chacune associée à une variable différente. Nous allons parfois désigner une observation comme un cas ou un point de données.
+*   Une **observation** est un ensemble de mesures effectuées dans des conditions similaires (vous effectuez généralement toutes les mesures sur une observation en même temps et sur le même objet). Une observation contiendra plusieurs valeurs, chacune associée à une variable différente. Nous allons parfois désigner une observation comme un cas ou un point de données.
 
 Ces définitions sont liées au concept de **tidy data** (données ordonnées). Pour voir comment, appliquons les définitions à certaines données réelles.
 
@@ -178,8 +178,8 @@ Non seulement le code de `table1` est plus facile à écrire, mais il est plus f
 D'abord avec `table1` :
 
 ```{r ex4, exercise = TRUE}
-table1 %>% 
-  summarise(moyenne = mean(cases))
+#table1 %>% 
+#  summarise(moyenne = mean(______))
 ```
 
 ```{r ex4-solution}
@@ -190,9 +190,9 @@ table1 %>%
 Puis avec `table2` :
 
 ```{r ex5, exercise = TRUE}
-table2 %>%
-  slice(c(1, 3, 5, 7, 9, 11)) %>%
-  summarise(moyenne = mean(count))
+#table2 %>%
+#  slice(c(_____)) %>%
+#  summarise(moyenne = mean(____))
 ```
 
 ```{r ex5-solution}
@@ -265,6 +265,7 @@ Nous y reviendrons par la suite, mais voici un aperçu du fonctionnement de ces 
 
 ![](https://www.fromthebottomoftheheap.net/assets/img/posts/tidyr-longer-wider.gif)
 
+
 ## Rassembler des colonnes
 
 ### Données désordonnées (untidy data)
@@ -289,14 +290,16 @@ question("Quelles sont les variables dans cases?",
 )
 ```
 
+
+
 ### Une version tidy
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/tNNnGX5iO-0" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-
-
+  
+  
 ### pivot_longer()
-
-Vous pouvez utiliser la fonction `pivot_longer()` du package **{tidyr}** pour convertir des données larges en données longues. Attention, notez que `pivot_longer()` renvoie une copie ordonnée du jeu de données, mais ne modifie pas le jeu de données d'origine. Si vous souhaitez utiliser cette copie ultérieurement, vous devrez la sauvegarder quelque part en utilisant `<-`.
+  
+  Vous pouvez utiliser la fonction `pivot_longer()` du package **{tidyr}** pour convertir des données larges en données longues. Attention, notez que `pivot_longer()` renvoie une copie ordonnée du jeu de données, mais ne modifie pas le jeu de données d'origine. Si vous souhaitez utiliser cette copie ultérieurement, vous devrez la sauvegarder quelque part en utilisant `<-`.
 
 ```{r echo = TRUE}
 cases %>%
@@ -316,8 +319,8 @@ pivot_longer(cases, cols = c(2, 3, 4), names_to = "year", values_to = "n")
 Pour utiliser `pivot_longer()`, passez-lui en argument le nom d'un jeu de données à restructurer suivi de l'argument `cols` qui indique quelles colonnes utiliser pour construire les nouvelles colonnes (sous forme de nombres). Ici, `pivot_longer()` utilisera les deuxième, troisième et quatrième colonnes. `pivot_longer()` supprimera ces colonnes dans le résultat, mais leur contenu apparaîtra dans les nouvelles colonnes. Toutes les colonnes non spécifiées resteront dans le jeu de données, et leur contenu sera répété aussi souvent que nécessaire pour dupliquer chaque relation du jeu de données désordonné d'origine.
 
 Il faut également passer à `pivot_longer()` les deux nouveaux noms de colonne à utiliser. Chaque nom doit être une chaîne de caractères entourée de guillemets :
-
-* `names_to` : chaîne de caractères qui deviendra le nom de la nouvelle colonne qui contiendra les anciens noms de colonne.
+  
+  * `names_to` : chaîne de caractères qui deviendra le nom de la nouvelle colonne qui contiendra les anciens noms de colonne.
 * `values_to` : chaîne de caractères qui deviendra le nom de la nouvelle colonne contenant les anciennes valeurs contenues dans les cellules.
 
 ### Exercice 1 - Ordonner table4a
@@ -331,8 +334,8 @@ table4a
 Le résultat devrait contenir trois colonnes : `country`, `year`, et `cases`. Commencez par modifier le code ci-dessous.
 
 ```{r ex7, exercise = TRUE}
-cases %>%
-  pivot_longer(cols = c(2, 3, 4), names_to = "year", values_to = "n")
+#table4a %>%
+#  pivot_longer(cols = c(____ ), names_to = "___", values_to = "____")
 ```
 
 ```{r ex7-solution}
@@ -387,7 +390,7 @@ table4b %>%
 Si vous avez examiné de près vos résultats des exercices précédents, vous avez peut-être remarqué quelque chose d'étrange : la nouvelle colonne `year` contient des vecteurs de caractères. Vous pouvez le savoir car R affiche `<chr>` sous le nom de la colonne.
 
 Vous pouvez demander à R de convertir chaque nouvelle colonne en un type de données approprié en utilisant l'argument `names_ptypes` à l'appel `pivot_longer()`. Cet argument doit être renseigné sous la forme `names_ptypes = list(year = integer())`. R transformera le contenu de la colonne `year` en entiers (integer). Essayez-le dans le code ci-dessus !
-
+  
 ```{r ex9, exercise = TRUE}
 table4b %>% 
   pivot_longer(cols = -country, names_to = "year", values_to = "population")
@@ -405,9 +408,9 @@ table4b %>%
 ### Flexibilité de pivot_longer()
 
 `cases`, `table4a`, et `table4b` sont toutes des tables rectangulaires : 
-
-* chaque ligne correspond à la valeur d'une variable, et
-* chaque colonne correspond à la valeur d'une variable
+  
+- chaque ligne correspond à la valeur d'une variable, et
+- chaque colonne correspond à la valeur d'une variable
 
 Les tables rectangulaires sont une forme simple de données étendues. Mais vous rencontrerez également des exemples plus complexes de données étendues. Par exemple, il est courant que les chercheurs placent un sujet par ligne. Dans ce cas, vous pouvez voir plusieurs colonnes d'informations d'identification suivies d'un ensemble de colonnes qui répertorient les mesures répétées de la même variable. `cases2` représente un tel ensemble de données.
 
@@ -435,7 +438,7 @@ cases2 %>%
 ### Données étroites
 
 Le jeu de données `pollution` ci-dessous affiche la quantité de petites et grandes particules dans l'air de trois villes. Il illustre un autre type courant de données désordonnées. Les **données étroites** (ou **narrow data**) utilisent une colonne contenant des noms de variables et une colonne contenant les valeurs associées à ces variables pour stocker plusieurs variables. Pouvez-vous dire ici laquelle est laquelle ?
-
+  
 ```{r echo = TRUE}
 pollution
 ```
@@ -473,18 +476,21 @@ question("Quelle colonne du jeu de données pollution contient les valeurs assoc
 ### Une version tidy
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/49c1IxOWlCM" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-
-
+  
+  
 ### pivot_wider()
+  
+Vous pouvez "étendre" les noms des variables sur leur propre ensemble de colonnes avec la fonction `pivot_wider()` du package **{tidyr}**. 
 
-Vous pouvez "étendre" les noms des variables sur leur propre ensemble de colonnes avec la fonction `pivot_wider()` du package **{tidyr}**. Pour utiliser `pivot_wider()`, passez-lui le nom d'un ensemble de données à étendre (fourni ici par le pipe `%>%`). Indiquez ensuite à `pivot_wider()` quelle colonne contient les noms des variables et quelle colonne contient les valeurs associées à ces variables.
+Pour utiliser `pivot_wider()`, passez-lui le nom d'un ensemble de données à étendre (fourni ici par le pipe `%>%`). Indiquez ensuite à `pivot_wider()` quelle colonne contient les noms des variables et quelle colonne contient les valeurs associées à ces variables.
 
 ```{r echo = TRUE}
 pollution %>% 
   pivot_wider(names_from = size, values_from = amount)
 ```
 
-`pivot_wider()` donnera à chaque valeur unique de la colonne _names_from_ sa propre colonne. Le nom de la valeur deviendra le nom de la colonne. `pivot_wider()` redistribuera ensuite les valeurs de la colonne _values_from_ à travers les nouvelles colonnes d'une manière qui préserve chaque relation dans le jeu de données d'origine.
+`pivot_wider()` donnera à chaque valeur unique de la colonne **`names_from`** sa propre colonne. 
+Le nom de la valeur deviendra le nom de la colonne. `pivot_wider()` redistribuera ensuite les valeurs de la colonne **`values_from`** à travers les nouvelles colonnes d'une manière qui préserve chaque relation dans le jeu de données d'origine.
 
 ### Exercice 3 - Ordonner table2
 
@@ -517,7 +523,7 @@ Vous remarquerez peut-être que `pivot_longer()` et `pivot_wider()` prennent tou
 table4b %>% 
   pivot_longer(cols = -country, names_to = "year", values_to = "population")
 pollution %>% 
-  pivot_wider(names_from = size,  = amount)
+  pivot_wider(names_from = size,  value = amount)
 ```
 
 Ne laissez pas la différence vous piéger. Pensez plutôt à la signification des guillemets.
@@ -526,7 +532,7 @@ Ne laissez pas la différence vous piéger. Pensez plutôt à la signification d
 
 * Par contre, tout "mot" non entouré de guillemets est le nom d'un objet, qui contient ou pointe vers une donnée. Chaque fois que R évalue un nom d'objet, il recherche l'objet pour trouver les données qu'il contient. Si l'objet n'existe pas quelque part, R retournera une erreur.
 
-###  
+### Guillemets pivot_longer() & pivot_wider()
 
 Dans notre code `pivot_longer()` ci-dessus, "year" et "population" font référence à deux colonnes qui _n'existent pas encore_ dans les données. Si R essayait de rechercher des objets nommés _year_ et _population_, il ne les trouverait pas (du moins pas dans le jeu de données `table4b`). Lorsque nous utilisons `pivot_longer()` nous passons à R deux valeurs (chaînes de caractères) à utiliser comme noms des futures colonnes qui apparaîtront dans le résultat.
 
@@ -534,11 +540,11 @@ Dans notre code `pivot_wider()`, `names_from` et `values_from` pointent vers deu
 
 En pratique, l'utilisation ou non de guillemets dépendra de la façon dont l'auteur de la fonction l'a écrite (par exemple, `pivot_wider()` fonctionnera quand même si vous incluez des guillemets). Cependant, vous pouvez utiliser l'intuition ci-dessus comme guide pour savoir comment utiliser les guillemets dans le tidyverse.
 
-### Filles et garçons dans le jeu de données prenoms
+## Exercise: Filles et garçons dans le jeu de données prenoms
 
 Appliquons `pivot_wider()` à des données réelles. Le graphique ci-dessous visualise un aspect du jeu de données `prenoms` du package **prenoms**.
 
-```{r out.width = "80%"}
+```{r out.width = "80%" , message=FALSE}
 prenoms %>%
   group_by(year, sex) %>% 
   summarise(n = sum(n)) %>% 
@@ -551,7 +557,7 @@ Le ratio filles/garçons dans `prenoms` n'est pas le même en fonction du temps.
 
 ### Créer les données
 
-```{r out.width = "80%"}
+```{r out.width = "80%", message=FALSE}
 prenoms %>%
   group_by(year, sex) %>% 
   summarise(total = sum(n)) %>% 
@@ -580,7 +586,7 @@ prenoms %>%
 
 ### Construire le graphique
 
-```{r out.width = "80%"}
+```{r out.width = "80%", message=FALSE}
 prenoms %>%
   group_by(year, sex) %>% 
   summarise(total = sum(n)) %>% 
@@ -591,7 +597,7 @@ prenoms %>%
 
 Utilisez les données ci-dessous pour construire le graphique (qui a été créé avec les fonctions {ggplot2}).
 
-```{r ex13, exercise = TRUE}
+```{r ex13, exercise = TRUE, message=FALSE}
 prenoms %>%
   group_by(year, sex) %>% 
   summarise(total = sum(n))
@@ -618,7 +624,7 @@ $$\text{ratio} = \frac{\text{total garçons (M)}}{\text{total filles (F)}}$$
 
 Mais comment pouvons-nous tracer ces données ? Notre version actuelle de `prenoms` indique le nombre total de garçons et de filles pour chaque année dans la même colonne, ce qui rend difficile l'utilisation des deux totaux dans le même calcul.
 
-```{r echo = TRUE}
+```{r echo = TRUE, message=FALSE}
 prenoms %>%
   group_by(year, sex) %>% 
   summarise(total = sum(n))
@@ -628,7 +634,7 @@ prenoms %>%
 
 Il serait plus facile de calculer le ratio garçons/filles si nous pouvions restructurer nos données dans l'objectif d'avoir le nombre total de garçons nés par an dans une colonne et le nombre total de filles nées par an dans une autre :
 
-```{r}
+```{r, message=FALSE}
 prenoms %>%
   group_by(year, sex) %>% 
   summarise(total = sum(n)) %>% 
@@ -668,7 +674,7 @@ prenoms %>%
 "Bon travail !"
 ```
 
-### Récapitulatif
+## Récapitulatif
 
 Vos données seront plus faciles à utiliser dans R si vous les restructurez sous un format tidy au début de votre analyse. Les données sont **tidy** (ordonnées) si :
 

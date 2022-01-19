@@ -57,7 +57,7 @@ Dans R, chaque fois que vous souhaitez utiliser un package qui ne fait pas parti
 Tant que vous n'aurez pas chargé un package, R ne pourra pas trouver les jeux de données et les fonctions qu'il contient. 
 Par exemple, si nous demandions à R d'afficher le jeu de données `prenoms`, qui provient du package **{prenoms}**, nous obtiendrions le message ci-dessous : R ne peut pas trouver le jeu de données car nous n'avons pas chargé le package nécessaire.
 
-```{r error = TRUE}
+```{r error = TRUE, echo=TRUE}
 prenoms
 ```
 
@@ -88,91 +88,8 @@ library(prenoms)
 Maintenant que vous en savez un peu sur le jeu de données, examinons son contenu. 
 Si vous exécutez `prenoms` sur votre console R, vous obtiendrez une sortie qui ressemble à ceci :
 
-```{r echo = TRUE, eval = FALSE}
-prenoms
 
-#> 155 1900   M     Philippe   5  01 0.0015777848
-#> 156 1900   M       Pierre  47  01 0.0148311770
-#> 157 1900   M      Prosper   3  01 0.0009466709
-#> 158 1900   M        Raoul   3  01 0.0009466709
-#> 159 1900   M         René  14  01 0.0044177974
-#> 160 1900   M       Robert   6  01 0.0018933417
-#> 161 1900   M        Roger   3  01 0.0009466709
-#> 162 1900   M         Tony   3  01 0.0009466709
-#> 163 1900   M       Victor  18  01 0.0056800252
-#> 164 1900   F        Adèle  11  02 0.0021829728
-#> 165 1900   F      Adelina   4  02 0.0007938083
-#> 166 1900   F      Adeline   4  02 0.0007938083
-#>  [ reached 'max' / getOption("max.print") -- omitted 3763818 rows ]
-```
-
-Oups ! Qu'est-ce qui se passe? `r emo::ji("sad")`
-
-### Affichage de grandes données
-
-`prenoms` est un gros jeu de données, et R n'est pas bien équipé pour afficher le contenu de grande taille. R affiche autant de lignes que possible avant que votre mémoire tampon ne soit saturée. Quand cela arrive, R s'arrête, vous laissant regarder une section arbitraire de vos données.
-
-Vous pouvez éviter ce comportement en transformant votre bloc de données en **tibble**.
-
-## tibbles
-
-### Qu'est-ce qu'un tibble ?
-
-Un tibble est un type spécial de table. R affiche les tibbles de manière astucieuse chaque fois que le package **tibble** est chargé. 
-
-- R n'affichera alors uniquement que les dix premières lignes d'un tibble ainsi que toutes les colonnes qui tiennent dans la fenêtre de votre console. 
-- R ajoute également des informations récapitulatives utiles sur les composants tibble, telles que les types de données de chaque colonne et la taille totale du jeu de données.
-
-Chaque fois que vous n'avez pas le package `{tibble}` chargé, R affichera le tibble comme s'il s'agissait d'un `data.frame`. 
-En fait, les tibbles **sont** des **data.frames**, mais dans une version améliorée.
-
-Vous pouvez penser à la différence entre l'affichage du data.frame et l'affichage du tibble comme ceci :
-
-```{r out.width = "75%"}
-knitr::include_graphics("www/images/tibble_display.png")
-```
-
-### as_tibble()
-
-Vous pouvez transformer un data.frame en tibble avec la fonction `as_tibble()` du package `{tibble}`, par ex. `as_tibble(voitures)`. Cependant, `prenoms` est déjà un tibble. Pour l'afficher correctement, il vous suffit donc juste de charger le package `{tibble}`.
-
-Pour voir ce que nous voulons dire, utilisez `library()` pour charger le package `{tibble}` dans le bloc ci-dessous, puis appelez `prenoms`.
-
-```{r prenoms-3, exercise = TRUE, exercise.setup = "bnames"}
-
-```
-
-```{r prenoms-3-solution}
-library(tibble)
-prenoms
-```
-
-```{r prenoms-3-check}
-"Excellent ! Si vous voulez vérifier si un objet est ou non un tibble, vous pouvez utiliser la fonction `is_tibble()` fournie dans le package {tibble}. Par exemple, cela retournerait TRUE : `is_tibble(prenoms)`."
-```
-
-```{r echo = FALSE, message = FALSE}
-library(tibble)
-```
-
-Vous n'avez pas à vous soucier des tibbles dans ces modules.
-Dans les futurs modules, nous convertirons automatiquement chaque jeu de données en un tableau interactif. 
-
-Cependant, *envisagez de faire des tibbles dès que possible quand vous travaillez dans R.*
-
-### View()
-
-Et si vous souhaitez inspecter les portions restantes d'un tibble ? Pour voir l'intégralité du tibble, utilisez la commande `View()`. R lancera une fenêtre qui affiche l'intégralité du jeu de données sous forme déroulante, à la maniere d'un tableur. Par exemple, le code ci-dessous lancera une visionneuse de données dans RStudio.
-
-```{r echo = TRUE, eval = FALSE}
-View(prenoms)
-```
-
-`View()` fonctionne conjointement avec le logiciel à partir duquel vous exécutez R : `View()` ouvre l'éditeur de données fourni par ce logiciel. Malheureusement, puisque ce module de cours n'est pas délivré avec un éditeur de données, vous ne pourrez pas utiliser `View()` ici (si vous souhaitez expérimenter cette commande quand même, vous pouvez essayer dans RStudio).
-
-
-
-## Data Science avec lesPrenoms
+## Data Science avec les Prenoms
 
 ```{r echo = FALSE, message = FALSE, warning = FALSE}
 library(tidyverse)
@@ -488,7 +405,10 @@ Lorsque vous combinez plusieurs tests logiques, veillez à rechercher ces deux e
 
 ## arrange()
 
-`arrange()` renvoie toutes les lignes d'un jeu données réorganisées par les valeurs d'une colonne. Comme avec `select()`, le premier argument de `arrange()` doit être un jeu de données et les arguments restants sont les noms des colonnes. Si vous donnez à `arrange()` un seul nom de colonne, il renverra les lignes du jeu de données réorganisées de sorte que la ligne avec la valeur la plus basse dans cette colonne apparaisse en premier, la ligne avec la deuxième valeur la plus basse apparaisse en deuxième, et ainsi de suite. Si la colonne contient des chaînes de caractères, `arrange()` les placera par ordre alphabétique.
+`arrange()` renvoie toutes les lignes d'un jeu données réorganisées par les valeurs d'une colonne. 
+Comme avec `select()`, le premier argument de `arrange()` doit être un jeu de données et les arguments restants sont les noms des colonnes. 
+
+Si vous donnez à `arrange()` un seul nom de colonne, il renverra les lignes du jeu de données réorganisées de sorte que la ligne avec la valeur la plus basse dans cette colonne apparaisse en premier, la ligne avec la deuxième valeur la plus basse apparaisse en deuxième, et ainsi de suite. Si la colonne contient des chaînes de caractères, `arrange()` les placera par ordre alphabétique.
 
 ### Exercice - arrange()
 
@@ -559,6 +479,38 @@ arrange(prenoms, desc(n))
 ```{r arrange-5-check}
 "Exactement !"
 ```
+
+
+## slice()
+
+Le verbe `slice()` sélectionne des lignes du tableau selon leur position. 
+On lui passe un chiffre ou un vecteur de chiffres.
+
+
+### Exercice - slice()
+
+Utilisez le bloc de code ci-dessous pour sélectionner la 345e ligne du tableau `prenoms`. 
+
+
+```{r slice-1, exercise = TRUE, exercise.setup = "bnames"}
+
+```
+
+```{r slice-1-solution}
+slice(prenoms, 345)
+```
+
+
+Si on veut sélectionner les 5 premières lignes :
+
+```{r slice-2, exercise = TRUE, exercise.setup = "bnames"}
+
+```
+
+```{r slice-2-solution}
+slice(prenoms, 1:5)
+```
+
 
 ## Pipe `%>%`
 

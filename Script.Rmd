@@ -140,6 +140,7 @@ data <- iris$Sepal.Length
 
 
 # Bases de la visualisation de données
+##Fonction `ggplot()`
 
 A retenir de ce module:
 
@@ -149,6 +150,7 @@ A retenir de ce module:
 
 
 - Faites un nuages de points avec les variables `Sepal.Length` et `Sepal.Width` du data.frame `iris` en faisant la distintion des couleur pour chaque spèce de fleur.
+
 
 ```{r Ex_10}
 # ggplot(data = <DATA>) + 
@@ -161,7 +163,7 @@ ggplot(data = iris) +
 ```
 
 
-- Faites un boxplot avec memes variables `Sepal.Length` et `Sepal.Width` du data.frame `iris` en faisanat la distaintion des coulor pour chaque Spece de fleur.
+- Faites un boxplot avec memes variables `Sepal.Length` et `Sepal.Width` du data.frame `iris` en faisanat la distintion des coulor pour chaque Spece de fleur.
 
 
 ```{r Ex_11}
@@ -173,7 +175,6 @@ ggplot(data = iris) +
   aes(x = Sepal.Length, y = Sepal.Width, color = Species) +
   geom_boxplot()
 ```
-
 
 
 - Pouvez-vous ajouter les titres, et labels dans le dernièr graphique? (regardez `?labs`)
@@ -199,6 +200,7 @@ library(tidyverse)
 
 
 -  Lire une base de donnes CSV:
+
 ```{r}
 data.csv <- read_csv("data/data-twitter-article.csv")
 data.csv
@@ -223,7 +225,7 @@ data.excel <- read_excel("data/Test_Attrakdiff.xls",  sheet = onglets[2])
 # Reading the onglet that corresponds
 data.excel <- read_excel("data/Test_Attrakdiff.xls",  
                          sheet = onglets[2], 
-                         skip = ) 
+                         skip = 2) 
 
 
 
@@ -238,9 +240,8 @@ onglets <- excel_sheets("data/deaths.xlsx")
 data.excel.onglets <- read_excel("data/deaths.xlsx", sheet = onglets[1] )
 data.excel.onglets <- read_excel("data/deaths.xlsx", sheet = onglets[1], skip = 4 )
 data.excel.onglets <- read_excel("data/deaths.xlsx", sheet = onglets[1], skip = 4 )
-
-
 ```
+
 
 ## Export de tableaux de données
 
@@ -258,6 +259,143 @@ write_csv2(data.csv, file= "data/export-csv2.csv")
 ```
 
 
+
+
+## Tibble vs Data.Frame
+
+### Qu'est-ce qu'un tibble ?
+
+Un tibble est un type spécial de table. R affiche les tibbles de manière astucieuse chaque fois que le package **tibble** est chargé. 
+
+- R n'affichera alors uniquement que les dix premières lignes d'un tibble ainsi que toutes les colonnes qui tiennent dans la fenêtre de votre console. 
+
+- R ajoute également des informations récapitulatives utiles sur les composants tibble, telles que les types de données de chaque colonne et la taille totale du jeu de données.
+
+Chaque fois que vous n'avez pas le package `{tibble}` chargé, R affichera le tibble comme s'il s'agissait d'un `data.frame`. 
+En fait, les tibbles **sont** des **data.frames**, mais dans une version améliorée.
+
+Vous pouvez penser à la différence entre l'affichage du data.frame et l'affichage du tibble comme ceci :
+
+```{r,  out.width = "75%"}
+knitr::include_graphics("figures/tibble_display.png")
+
+data.frame(data.csv)
+
+tibble(data.csv)
+names(data.csv)
+length(data.csv$`Journal identity`)
+
+# View tibles
+View(data.csv)
+```
+
+
+
+
+```{r, include=FALSE}
+# ALLEZ AU TUTORIAL III
+```
+
+
+- Graphiquez la curve de votre prenom. 
+- Dans quelle année specifiquement la popularité de votre prenom a été maximale?
+
+
+
+```{r Ex_13, echo = FALSE, message=FALSE}
+
+# Curve de prenom
+
+prenoms_france %>% 
+  filter(name == "Fabio", sex == "M") %>% 
+  ggplot() +
+    aes(x = year, y = prop) +
+    geom_line() +
+    labs(title = "Popularité du prénom Fabio")
+
+# Anne de Popularité
+
+fabio <- 
+  prenoms_france %>% 
+  filter(name == "Fabio", sex == "M") 
+max(fabio$prop)
+fabio %>% filter(prop == max(fabio$prop))
+
+
+```
+
+
+```{r, include=FALSE}
+# ALLEZ AU TUTORIAL III
+```
+
+
+
+## Challenges 
+
+Appliquez vos connaissances de {dplyr} pour relever les challenges suivants.
+
+
+### Challenge du Top 10
+
+
+Identifiez les Top 10 prenoms utilisez en France?
+
+```{r Ex_15}
+#prenoms_france %>% 
+```
+
+```{r Ex_14-solution}
+tops <- prenoms_france %>% 
+  group_by(name, sex) %>% 
+  summarise(total = sum(n)) %>% 
+  ungroup() %>% 
+  top_n(10, total)
+
+```
+
+
+
+
+
+### Challenge "number one" - focus sur les garçons
+
+Combien de prénoms de garçons distincts ont atteint le rang de numéro 1 au cours d'une année ?
+
+```{r Ex_14}
+
+```
+
+```{r Ex_13-solution}
+prenoms_france %>% 
+  group_by(year, sex) %>% 
+  mutate(rank = min_rank(desc(n))) %>% 
+  filter(rank == 1, sex == "M") %>% 
+  ungroup() %>% 
+  summarise(distinct = n_distinct(name))
+```
+
+### Challenge "number one" - focus sur les filles
+
+Combien de prénoms de filles distincts ont atteint le rang de numéro 1 au cours d'une année ?
+
+```{r Ex_14}
+
+```
+
+```{r Ex_14-solution}
+prenoms_france %>% 
+  group_by(year, sex) %>% 
+  mutate(rank = min_rank(desc(n))) %>% 
+  filter(rank == 1, sex == "F") %>% 
+  ungroup() %>% 
+  summarise(distinct = n_distinct(name))
+```
+
+
+
+# Attractif
+
 ## Tidy
 
 Les principes d’un jeu de données tidy sont les suivants :
@@ -268,22 +406,114 @@ Les principes d’un jeu de données tidy sont les suivants :
 
 
 
-Prenons un exemple avec VOS données de l'experimentation, qui indique la population de trois pays pour quatre années différentes :
-
-```{r }
-# Data in 'NON tidy' form
-
- data.non.tidy <- read_csv(dm, file = "data/non-tidy.csv")
-```
-
-
-
-
-# Attractif
-
 ```{r}
 read_excel
 ```
+
+
+
+
+
+
+
+
+### Challenge "number one" - graphique
+
+`number_ones` est un vecteur contenant les prénoms de garçons qui ont été classés au rang 1.
+
+```{r echo = TRUE}
+number_ones
+```
+
+Utilisez `number_ones` avec `prenoms` pour recréer le graphique ci-dessous, qui montre la popularité au fil du temps pour chaque prénom de `number_ones`.
+
+```{r, fig.height=5, out.width="100%"}
+prenoms %>% 
+  filter(name %in% number_ones, sex == "M") %>% 
+  ggplot() +
+    aes(x = year, y = prop, color = name) +
+    geom_line()
+```
+
+```{r ones-3, exercise = "TRUE", exercise.setup = "bnames"}
+
+```
+
+```{r ones-3-solution}
+prenoms %>% 
+  filter(name %in% number_ones, sex == "M") %>% 
+  ggplot() +
+    aes(x = year, y = prop, color = name) +
+    geom_line()
+```
+
+### Challenge "diversité des prénoms" - nombres de prénoms uniques
+
+Quel genre utilise le plus de prénoms ? Les garçons ou les filles ?
+
+Dans le bloc ci-dessous, calculez puis tracez le nombre de prénoms distincts utilisés chaque année pour les garçons et les filles. Placez l'année sur l'axe des x, le nombre de prénoms distincts sur l'axe des y et coloriez les lignes par sexe.
+
+```{r diversity-1, exercise = TRUE, exercise.setup = "bnames"}
+
+```
+
+
+```{r diversity-1-solution}
+prenoms %>% 
+  group_by(year, sex) %>% 
+  summarise(n_names = n_distinct(name)) %>% # or summarise(n_names = n())
+  ggplot() +
+    aes(x = year, y = n_names, color = sex) +
+    geom_line()
+```
+
+### Challenge "diversité des prénoms" - nombres de garçons et de filles
+
+Faisons en sorte de ne pas biaiser notre analyse en fonction du nombre total de garçons et de filles nés chaque année. Dans le bloc ci-dessous, calculez puis tracez au fil du temps le nombre total de garçons et de filles par année. Le nombre relatif de garçons et de filles est-il constant au cours du temps ?
+
+```{r diversity-2, exercise = TRUE, exercise.setup = "bnames"}
+
+```
+
+```{r diversity-2-solution}
+prenoms %>% 
+  group_by(year, sex) %>% 
+  summarise(n = sum(n)) %>% 
+  ggplot() +
+    aes(x = year, y = n, color = sex) +
+    geom_line()
+```
+
+### Challenge "diversité des prénoms" - enfants par prénom
+
+Oups. Parfois, il y a plus de filles et parfois plus de garçons. De plus, l'ensemble de la population a augmenté au fil du temps. Tentons d’expliquer cela avec une nouvelle métrique : le nombre moyen d'enfants par prénom.
+
+Si les filles ont un plus petit nombre d'enfants par prénom, cela impliquerait qu'elles utilisent plus de prénoms dans l'ensemble (et vice versa).
+
+Dans le bloc ci-dessous, calculez et tracez le nombre moyen d'enfants par prénom par année et par sexe au fil du temps. Comment interprétez-vous les résultats ?
+
+```{r diversity-3, exercise = TRUE, exercise.setup = "bnames"}
+
+```
+
+
+```{r diversity-3-solution}
+prenoms_france %>% 
+  group_by(year, sex) %>% 
+  summarise(per_name = mean(n)) %>% 
+  ggplot() +
+    aes(x = year, y = per_name, color = sex) +
+    geom_line()
+```
+
+```{r diversity-3-check}
+"Bien joué ! Il y a moins de filles (en moyenne) qui reçoivent un prénom en particulier que les garçons. Cela suggère qu'il y a plus de variété dans les prénoms de filles que dans les prénoms de garçons une fois que vous tenez compte de la population. Fait intéressant,le nombre d'enfants par prénom a fortement diminué pour chaque sexe depuis les années 1950, même si la population totale a continué d'augmenter. Cela suggère qu'il existe une plus grande variété de prénoms aujourd'hui que par le passé."
+```
+
+
+
+
+
 
 
 # Final Exercise
@@ -325,17 +555,3 @@ Pick at least __two__ of the tasks below from the task menu and approach each wi
 
 * Make up your own! 
 
-
----
-
-
-You're encouraged to reflect on what was hard/easy, problems you solved, helpful tutorials you read, etc.
-
-
-
-
-
-
-
-
- 

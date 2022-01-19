@@ -1,8 +1,8 @@
 ---
 title: "Extraire et retirer de l'information avec {dplyr}"
-tutorial:
-  id: "io.shinyapps.tutorials.03-deriving"
-  version: 0.01
+# tutorial:
+#   id: "io.shinyapps.tutorials.03-deriving"
+#   version: 0.01
 output: 
   learnr::tutorial:
     progressive: true
@@ -53,6 +53,10 @@ checker <- function(label, user_code, check_code, envir_result, evaluate_result,
 }
 tutorial_options(exercise.timelimit = 60, exercise.checker = checker)
 knitr::opts_chunk$set(echo = FALSE)
+```
+
+```{r bnames, echo = FALSE, message = FALSE}
+library(prenoms)
 ```
 
 ## Bienvenue
@@ -514,7 +518,7 @@ prenoms %>%
 "Félicitations ! Notre deuxième définition de la popularité donne une image différente de la première. Ici, nous voyons des prénoms qui ont toujours été populaires au fil du temps, y compris des prénoms qui n'étaient pas présents dans les résultats précédents comme Noah et Timéo."
 ```
 
-### Récapitulatif
+## Récapitulatif
 
 Dans ce module, vous avez appris trois fonctions pour isoler des données dans une table :
 
@@ -530,150 +534,10 @@ Vous avez également appris trois fonctions pour dériver de nouvelles données 
 
 Ensemble, ces six fonctions créent une _grammaire_ pour la manipulation des données. Vous pouvez l'utiliser pour manipuler les données de manière sophistiquée, étape par étape. Ces fonctions ciblent les tâches quotidiennes de l'analyse des données. Peu importe les types de données avec lesquelles vous travaillez, vous découvrirez que :
 
-1. _Les jeux de données contiennent souvent plus d'informations que nécessaire_
-1. _Les jeux de données impliquent plus d'informations qu'ils n'en affichent_
+1. *Les jeux de données contiennent souvent plus d'informations que nécessaire*
+1. *Les jeux de données impliquent plus d'informations qu'ils n'en affichent*
 
-Ces six fonctions de {dplyr} vous aident à travailler avec ces réalités en isolant et en révélant les informations contenues dans vos données. En fait, {dplyr} fournit plus de six fonctions pour cette grammaire : {dplyr} est livré avec plusieurs fonctions qui sont des variations sur les thèmes de `select()`, `filter()`, `summarise()` et `mutate()`. Chacune suit la même syntaxe utilisable dans des pipes. Si vous êtes intéressé, vous pouvez en savoir plus sur ces fonctions complémentaires dans la [cheatsheet de {dplyr}](https://github.com/rstudio/cheatsheets/raw/master/source/pdfs/data-transformation-cheatsheet.pdf).
-
-## Challenges
-
-Appliquez vos connaissances de {dplyr} pour relever les deux challenges suivants.
-
-### Challenge "number one" - focus sur les garçons
-
-Combien de prénoms de garçons distincts ont atteint le rang de numéro 1 au cours d'une année ?
-
-```{r ones-1, exercise = TRUE, exercise.setup = "bnames"}
-
-```
-
-```{r ones-1-solution}
-prenoms %>% 
-  group_by(year, sex) %>% 
-  mutate(rank = min_rank(desc(n))) %>% 
-  filter(rank == 1, sex == "M") %>% 
-  ungroup() %>% 
-  summarise(distinct = n_distinct(name))
-```
-
-### Challenge "number one" - focus sur les filles
-
-Combien de prénoms de filles distincts ont atteint le rang de numéro 1 au cours d'une année ?
-
-```{r ones-2, exercise = TRUE, exercise.setup = "bnames"}
-
-```
-
-```{r ones-2-solution}
-prenoms %>% 
-  group_by(year, sex) %>% 
-  mutate(rank = min_rank(desc(n))) %>% 
-  filter(rank == 1, sex == "F") %>% 
-  ungroup() %>% 
-  summarise(distinct = n_distinct(name))
-```
-
-### Challenge "number one" - graphique
-
-`number_ones` est un vecteur contenant les prénoms de garçons qui ont été classés au rang 1.
-
-```{r echo = TRUE}
-number_ones
-```
-
-Utilisez `number_ones` avec `prenoms` pour recréer le graphique ci-dessous, qui montre la popularité au fil du temps pour chaque prénom de `number_ones`.
-
-```{r, fig.height=5, out.width="100%"}
-prenoms %>% 
-  filter(name %in% number_ones, sex == "M") %>% 
-  ggplot() +
-    aes(x = year, y = prop, color = name) +
-    geom_line()
-```
-
-```{r ones-3, exercise = "TRUE", exercise.setup = "bnames"}
-
-```
-
-```{r ones-3-solution}
-prenoms %>% 
-  filter(name %in% number_ones, sex == "M") %>% 
-  ggplot() +
-    aes(x = year, y = prop, color = name) +
-    geom_line()
-```
-
-### Challenge "diversité des prénoms" - nombres de prénoms uniques
-
-Quel genre utilise le plus de prénoms ? Les garçons ou les filles ?
-
-Dans le bloc ci-dessous, calculez puis tracez le nombre de prénoms distincts utilisés chaque année pour les garçons et les filles. Placez l'année sur l'axe des x, le nombre de prénoms distincts sur l'axe des y et coloriez les lignes par sexe.
-
-```{r diversity-1, exercise = TRUE, exercise.setup = "bnames"}
-
-```
+Ces six fonctions de {dplyr} vous aident à travailler avec ces réalités en isolant et en révélant les informations contenues dans vos données. En fait, {dplyr} fournit plus de six fonctions pour cette grammaire : {dplyr} est livré avec plusieurs fonctions qui sont des variations sur les thèmes de `select()`, `filter()`, `summarise()` et `mutate()`. Chacune suit la même syntaxe utilisable dans des pipes. 
+Si vous êtes intéressé, vous pouvez en savoir plus sur ces fonctions complémentaires dans la [cheatsheet de {dplyr}](https://github.com/rstudio/cheatsheets/raw/master/source/pdfs/data-transformation-cheatsheet.pdf).
 
 
-```{r diversity-1-solution}
-prenoms %>% 
-  group_by(year, sex) %>% 
-  summarise(n_names = n_distinct(name)) %>% # or summarise(n_names = n())
-  ggplot() +
-    aes(x = year, y = n_names, color = sex) +
-    geom_line()
-```
-
-### Challenge "diversité des prénoms" - nombres de garçons et de filles
-
-Faisons en sorte de ne pas biaiser notre analyse en fonction du nombre total de garçons et de filles nés chaque année. Dans le bloc ci-dessous, calculez puis tracez au fil du temps le nombre total de garçons et de filles par année. Le nombre relatif de garçons et de filles est-il constant au cours du temps ?
-
-```{r diversity-2, exercise = TRUE, exercise.setup = "bnames"}
-
-```
-
-```{r diversity-2-solution}
-prenoms %>% 
-  group_by(year, sex) %>% 
-  summarise(n = sum(n)) %>% 
-  ggplot() +
-    aes(x = year, y = n, color = sex) +
-    geom_line()
-```
-
-### Challenge "diversité des prénoms" - enfants par prénom
-
-Oups. Parfois, il y a plus de filles et parfois plus de garçons. De plus, l'ensemble de la population a augmenté au fil du temps. Tentons d’expliquer cela avec une nouvelle métrique : le nombre moyen d'enfants par prénom.
-
-Si les filles ont un plus petit nombre d'enfants par prénom, cela impliquerait qu'elles utilisent plus de prénoms dans l'ensemble (et vice versa).
-
-Dans le bloc ci-dessous, calculez et tracez le nombre moyen d'enfants par prénom par année et par sexe au fil du temps. Comment interprétez-vous les résultats ?
-
-```{r diversity-3, exercise = TRUE, exercise.setup = "bnames"}
-
-```
-
-
-```{r diversity-3-solution}
-prenoms %>% 
-  group_by(year, sex) %>% 
-  summarise(per_name = mean(n)) %>% 
-  ggplot() +
-    aes(x = year, y = per_name, color = sex) +
-    geom_line()
-```
-
-```{r diversity-3-check}
-"Bien joué ! Il y a moins de filles (en moyenne) qui reçoivent un prénom en particulier que les garçons. Cela suggère qu'il y a plus de variété dans les prénoms de filles que dans les prénoms de garçons une fois que vous tenez compte de la population. Fait intéressant,le nombre d'enfants par prénom a fortement diminué pour chaque sexe depuis les années 1950, même si la population totale a continué d'augmenter. Cela suggère qu'il existe une plus grande variété de prénoms aujourd'hui que par le passé."
-```
-
-### Récapitulatif
-
-Toutes nos félicitations ! Vous pouvez utiliser la grammaire de manipulation des données de {dplyr} pour accéder à toutes les données associées à une table ---même si ces données ne sont pas actuellement affichées par la table.
-
-En d'autres termes, vous savez maintenant comment consulter les données dans R, ainsi que comment accéder à des valeurs spécifiques, calculer des statistiques récapitulatives et calculer de nouvelles variables. Lorsque vous combinez cela avec les compétences de visualisation que vous avez apprises dans [Bases de la visualisation de données](), vous avez tout ce dont vous avez besoin pour commencer à explorer les données dans R.
-
-Le prochain module vous apprendra les trois dernières compétences de base pour travailler avec R :
-
-1. Comment visualiser les données
-1. Comment travailler avec des données
-1. Comment programmer avec du code R 

@@ -93,8 +93,6 @@ Lé résultat de la somme est:  **`r moyenne_global`**.
 La totalité des étudiantes est: **`r moyenne_global`**
   
 
-
-
 ### List
 
 - Faites unu liste avec les vecteurs que vous avez fait dans l'exercise précedente
@@ -212,7 +210,8 @@ data.csv
 # Lire un base de donnes Excel
 library(readxl)
 
-data.excel <- read_excel("data/Test_Attrakdiff.xls" ) # Don't show up
+# Don't show up
+data.excel <- read_excel("data/Test_Attrakdiff.xls" ) 
 
 #identifying the onglets
 onglets <- excel_sheets("data/Test_Attrakdiff.xls")
@@ -227,20 +226,106 @@ data.excel <- read_excel("data/Test_Attrakdiff.xls",
                          sheet = onglets[2], 
                          skip = 2) 
 
+# Selecting the corresponding rows
+data.excel <- data.excel %>% slice(1:11)
+
+# Changing names columns
+col_names <- names(data.excel)
+col_names[1] <- c("Participant")
+
+names(data.excel) <- col_names
+  
+data.excel <- 
+  data.excel %>%  select(Participant : QP7)
 
 
+
+# Pivot_longer to analyse
+data.excel <- 
+  data.excel %>% pivot_longer(cols = -Participant, 
+                              names_to = "Variables",
+                              values_to = "Answers")
+
+
+
+# Changing the scale of the answers
+data.excel <- 
+  data.excel %>% mutate( 
+    change_scale =
+      case_when(
+        Answers == 7  ~ 3,
+        Answers == 6  ~ 2,
+        Answers == 5  ~ 1,
+        Answers == 4  ~ 0,
+        Answers == 3  ~ -1,
+        Answers == 2  ~ -2,
+        Answers == 1  ~ -3,
+        TRUE ~ as.numeric(Answers)
+      )
+  )
+
+# Changing the sign of the answers
+data.excel <- 
+  data.excel %>% mutate( 
+    change_scale_orientation =
+      case_when(
+        Variables %in% 
+          c("ATT1*", "ATT3*","ATT5*",
+            "ATT7*", "QHI2*", "QHI3*", "QHI6*", 
+            "QHS1*", "QHS3*", "QHS4*", "QP1*",
+            "QP2*", "QP3*", "QP5*")  ~ as.numeric(change_scale)*(-1),
+        TRUE ~ as.numeric(change_scale)
+      )
+  )
+
+
+## Approach 2
+data.excel <- 
+  data.excel %>% mutate( 
+    change_scale_orientation_II =
+      case_when(
+        str_detect(data.excel$Variables, "\\*") ~ as.numeric(change_scale)*(-1),
+        TRUE ~ as.numeric(change_scale)
+      ))
+
+# Doing the Groups
+data.excel <- 
+  data.excel %>% mutate( 
+    Factors =
+      case_when(
+        str_detect(data.excel$Variables, "QP") ~ "QP",
+        str_detect(data.excel$Variables, "QP1") ~ "QP",
+        
+        str_detect(data.excel$Variables, "QHS") ~ "QHS",
+        
+        str_detect(data.excel$Variables, "QHI") ~ "QHI",        
+        str_detect(data.excel$Variables, "QH1") ~ "QHI",        
+        
+        str_detect(data.excel$Variables, "ATT") ~ "ATT",
+        TRUE ~ "ATTENTION"
+      ))
+
+# Doing the calclus
+
+data.excel %>% 
+  group_by(Factors) %>% 
+  summarise(Moyenne = mean(change_scale_orientation)) %>% 
+  ggplot() +
+  aes(y=Moyenne, x= Factors) +
+  #geom_point() +
+  #aes(x=Factors , y=Moyenne, group=1 ) +
+  geom_bar(stat="identity", position = "dodge", lwd = 1,  aes(fill = Factors)) +
+  #geom_bar(aes( stat = "identity"))
+  geom_point() +
+  #geom_line() +
+  coord_flip() + 
+  scale_x_discrete(breaks=c("ATT","QHI","QHS","QP"), 
+                   labels=c("Attractivité Globale", 
+                            "Qualité hédonique - Identification", 
+                            "Qualité hédonique - Stimulation",
+                            "Qualité Pragmatique"))
 ```
 
--  Lire les onglets dans le fichier Excel
-
-```{r atractif}
-
-# Lire un onglet d'excel ---> Il faut savoir quel's sont les onglets du document
-onglets <- excel_sheets("data/deaths.xlsx")
-data.excel.onglets <- read_excel("data/deaths.xlsx", sheet = onglets[1] )
-data.excel.onglets <- read_excel("data/deaths.xlsx", sheet = onglets[1], skip = 4 )
-data.excel.onglets <- read_excel("data/deaths.xlsx", sheet = onglets[1], skip = 4 )
-```
 
 
 ## Export de tableaux de données
